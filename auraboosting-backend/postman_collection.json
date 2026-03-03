@@ -1,0 +1,304 @@
+{
+  "info": {
+    "name": "AuraBoosting API",
+    "description": "API para plataforma de coaching de videojuegos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"role\": \"student\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/register",
+              "host": ["{{base_url}}"],
+              "path": ["register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/me",
+              "host": ["{{base_url}}"],
+              "path": ["me"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/logout",
+              "host": ["{{base_url}}"],
+              "path": ["logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Games",
+      "item": [
+        {
+          "name": "List Games",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/games",
+              "host": ["{{base_url}}"],
+              "path": ["games"]
+            }
+          }
+        },
+        {
+          "name": "Show Game",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/games/1",
+              "host": ["{{base_url}}"],
+              "path": ["games", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Classes",
+      "item": [
+        {
+          "name": "List Classes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/classes?game_id=1&upcoming=1",
+              "host": ["{{base_url}}"],
+              "path": ["classes"],
+              "query": [
+                {
+                  "key": "game_id",
+                  "value": "1"
+                },
+                {
+                  "key": "upcoming",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Class (Coach)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"game_id\": 1,\n  \"title\": \"Master League of Legends\",\n  \"description\": \"Learn advanced techniques\",\n  \"duration\": 60,\n  \"price\": 50.00,\n  \"max_students\": 5,\n  \"scheduled_at\": \"2026-03-10 18:00:00\",\n  \"meeting_link\": \"https://zoom.us/j/123456789\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/classes",
+              "host": ["{{base_url}}"],
+              "path": ["classes"]
+            }
+          }
+        },
+        {
+          "name": "My Classes (Coach)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/my-classes",
+              "host": ["{{base_url}}"],
+              "path": ["my-classes"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enrollments",
+      "item": [
+        {
+          "name": "Enroll in Class",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"class_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/enrollments",
+              "host": ["{{base_url}}"],
+              "path": ["enrollments"]
+            }
+          }
+        },
+        {
+          "name": "My Enrollments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/my-enrollments",
+              "host": ["{{base_url}}"],
+              "path": ["my-enrollments"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Process Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enrollment_id\": 1,\n  \"payment_method\": \"credit_card\",\n  \"transaction_id\": \"TXN123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": ["{{base_url}}"],
+              "path": ["payments"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Create Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"class_id\": 1,\n  \"coach_id\": 2,\n  \"rating\": 5,\n  \"comment\": \"Excellent coach!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/reviews",
+              "host": ["{{base_url}}"],
+              "path": ["reviews"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
