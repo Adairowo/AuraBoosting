@@ -7,6 +7,14 @@ use App\Http\Controllers\Api\EnrollmentController;
 use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\AdminDashboardController;
+use App\Http\Controllers\Api\AdminUserController;
+use App\Http\Controllers\Api\AdminGameController;
+use App\Http\Controllers\Api\AdminClassController;
+use App\Http\Controllers\Api\AdminEnrollmentController;
+use App\Http\Controllers\Api\AdminPaymentController;
+use App\Http\Controllers\Api\AdminReviewController;
+use App\Http\Controllers\Api\AdminSpecializationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,5 +77,52 @@ Route::prefix('v1')->group(function () {
         Route::post('/reviews', [ReviewController::class, 'store']);
         Route::put('/reviews/{review}', [ReviewController::class, 'update']);
         Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
+    });
+
+    // Admin routes
+    Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
+        // Dashboard
+        Route::get('/dashboard', [AdminDashboardController::class, 'index']);
+
+        // Users
+        Route::get('/users', [AdminUserController::class, 'index']);
+        Route::post('/users', [AdminUserController::class, 'store']);
+        Route::get('/users/{user}', [AdminUserController::class, 'show']);
+        Route::put('/users/{user}', [AdminUserController::class, 'update']);
+        Route::delete('/users/{user}', [AdminUserController::class, 'destroy']);
+
+        // Games
+        Route::get('/games', [AdminGameController::class, 'index']);
+        Route::post('/games', [AdminGameController::class, 'store']);
+        Route::get('/games/{game}', [AdminGameController::class, 'show']);
+        Route::put('/games/{game}', [AdminGameController::class, 'update']);
+        Route::delete('/games/{game}', [AdminGameController::class, 'destroy']);
+
+        // Classes
+        Route::get('/classes', [AdminClassController::class, 'index']);
+        Route::get('/classes/{class}', [AdminClassController::class, 'show']);
+        Route::put('/classes/{class}', [AdminClassController::class, 'update']);
+        Route::delete('/classes/{class}', [AdminClassController::class, 'destroy']);
+
+        // Enrollments
+        Route::get('/enrollments', [AdminEnrollmentController::class, 'index']);
+        Route::get('/enrollments/{enrollment}', [AdminEnrollmentController::class, 'show']);
+        Route::patch('/enrollments/{enrollment}/status', [AdminEnrollmentController::class, 'updateStatus']);
+
+        // Payments
+        Route::get('/payments', [AdminPaymentController::class, 'index']);
+        Route::get('/payments/{payment}', [AdminPaymentController::class, 'show']);
+        Route::post('/payments/{payment}/confirm', [AdminPaymentController::class, 'confirm']);
+        Route::post('/payments/{payment}/refund', [AdminPaymentController::class, 'refund']);
+
+        // Reviews
+        Route::get('/reviews', [AdminReviewController::class, 'index']);
+        Route::get('/reviews/{review}', [AdminReviewController::class, 'show']);
+        Route::delete('/reviews/{review}', [AdminReviewController::class, 'destroy']);
+
+        // Coach specializations
+        Route::get('/specializations', [AdminSpecializationController::class, 'index']);
+        Route::post('/specializations', [AdminSpecializationController::class, 'store']);
+        Route::delete('/specializations/{specialization}', [AdminSpecializationController::class, 'destroy']);
     });
 });
