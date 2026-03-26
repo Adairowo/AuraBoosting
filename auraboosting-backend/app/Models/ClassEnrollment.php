@@ -33,6 +33,6 @@ class ClassEnrollment extends Model
 
     public function payment()
     {
-        return $this->hasOne(Payment::class);
+        return $this->hasOne(Payment::class, 'enrollment_id');
     }
 }
