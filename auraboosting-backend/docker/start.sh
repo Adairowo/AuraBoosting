@@ -20,8 +20,8 @@ if [ -z "${APP_KEY:-}" ]; then
 	exit 1
 fi
 
-# Si usas migraciones automáticas (opcional; cuidado en producción)
-# php artisan migrate --force
+# Si usas migraciones automáticas
+php artisan migrate --force
 
 # Cachear config/routes si el env está completo (opcional)
 php artisan config:cache || true
