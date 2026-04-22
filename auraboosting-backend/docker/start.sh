@@ -11,6 +11,15 @@ sed -i "s/:80/:${PORT}/" /etc/apache2/sites-available/000-default.conf
 # Laravel storage link (no rompe si ya existe)
 php artisan storage:link || true
 
+# Limpiar caches viejos antes de regenerar (evita arrastrar APP_KEY antigua o vacía)
+php artisan optimize:clear || true
+
+# Validar APP_KEY en runtime para evitar 500 silencioso
+if [ -z "${APP_KEY:-}" ]; then
+	echo "ERROR: APP_KEY no está definida en variables de entorno"
+	exit 1
+fi
+
 # Si usas migraciones automáticas (opcional; cuidado en producción)
 # php artisan migrate --force
 
